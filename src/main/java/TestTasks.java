@@ -49,6 +49,10 @@ public class TestTasks {
         for (int i = 0; i < result.length; i++) {
             System.out.print(result[i] + " ");
         }
+
+        System.out.println("========================");
+        System.out.println("Найти дубликат в массиве: ");
+        System.out.println(findDuplicateNumber(List.of(1,2,3,4,5,6,7,8,8,9,10)));
     }
 
     public static void iteratedMap() {
@@ -175,5 +179,32 @@ public class TestTasks {
                 .toArray();
     }
 
+    public static int findDuplicateNumber(List<Integer> numbers) {
+
+//        Map<Integer, Long> map = numbers.stream()
+//                .collect(Collectors.groupingBy(Function.identity(),
+//                        Collectors.counting()));
+//        var listKey = map.keySet().stream().toList();
+//
+//        for (int i = 0; i < listKey.size(); i++) {
+//            if (map.get(listKey.get(i)) > 1) {
+//                return listKey.get(i);
+//            }
+//        }
+
+//        return numbers.stream()
+//                .filter(i -> Collections.frequency(numbers, i) > 1)
+//                .collect(Collectors.toSet())
+//                .stream().toList().get(0);
+
+        return numbers
+                .stream()
+                .mapToInt(Integer::valueOf)
+                .sum() -
+                new HashSet<>(numbers)
+                        .stream()
+                        .mapToInt(Integer::valueOf)
+                        .sum();
+    }
 }
 
