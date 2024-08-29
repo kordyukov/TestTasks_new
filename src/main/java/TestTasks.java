@@ -53,8 +53,63 @@ public class TestTasks {
         System.out.println("========================");
         System.out.println("Найти дубликат в массиве: ");
         System.out.println(findDuplicateNumber(List.of(1,2,3,4,5,6,7,8,8,9,10)));
-    }
 
+        System.out.println("========================");
+        System.out.println("полиндром: ");
+        String s = "babad";
+        System.out.println(longestPalindrome(s));
+
+        System.out.println("======Длина уникальной самой длинной подстроки============");
+        System.out.println(lengthOfLongestSubstring("abcabcbb"));
+    }
+    public static int lengthOfLongestSubstring(String s) {
+        Set<Character>set=new HashSet<>();
+        int maxLength=0;
+        int left=0;
+        for(int right=0;right<s.length();right++){
+
+            if(!set.contains(s.charAt(right))){
+                set.add(s.charAt(right));
+                maxLength=Math.max(maxLength,right-left+1);
+
+            }else{
+                while(s.charAt(left)!=s.charAt(right)){
+                    set.remove(s.charAt(left));
+                    left++;
+                }
+                set.remove(s.charAt(left));left++;
+                set.add(s.charAt(right));
+            }
+
+        }
+        return maxLength;
+    }
+    private static boolean check(int i, int j, String s) {
+        int left = i;
+        int right = j - 1;
+
+        while (left < right) {
+            if (s.charAt(left) != s.charAt(right)) {
+                return false;
+            }
+
+            left++;
+            right--;
+        }
+
+        return true;
+    }
+    public static String longestPalindrome(String s) {
+        for (int length = s.length(); length > 0; length--) {
+            for (int start = 0; start <= s.length() - length; start++) {
+                if (check(start, start + length, s)) {
+                    return s.substring(start, start + length);
+                }
+            }
+        }
+
+        return "";
+    }
     public static void iteratedMap() {
         Map<String, String> map = new HashMap<>();
         map.put("1", "2");
