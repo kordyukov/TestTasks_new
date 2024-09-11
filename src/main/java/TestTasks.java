@@ -61,7 +61,49 @@ public class TestTasks {
 
         System.out.println("======Длина уникальной самой длинной подстроки============");
         System.out.println(lengthOfLongestSubstring("abcabcbb"));
+        System.out.println("======посчитать символы в строке============");
+        System.out.println(checkChar("AAAABBBCCXYZDDDDEEEFFFAAAAAABBBBBBBBBBBBBBBBBBBBBBBBBBBB"));
     }
+
+    public static String checkChar(String str) {
+        for (char s : str.toCharArray()) {
+            if (Character.isDigit(s)) {
+                throw new NumberFormatException("String contains number!");
+            }
+        }
+
+        List<String> listStrs = Arrays.stream(str.split("")).toList();
+        Map<String, Integer> mapStrs = new LinkedHashMap<>();
+        String result = "";
+        int count = 0;
+        for (int i = 0; i < listStrs.size(); i++) {
+            if (i + 1 < listStrs.size()) {
+                if (listStrs.get(i).equals(listStrs.get(i + 1))) {
+                    count += 1;
+                } else {
+                    if (!mapStrs.containsKey(listStrs.get(i))) {
+                        mapStrs.put(listStrs.get(i), count + 1);
+                        count = 0;
+                    } else {
+                        mapStrs.put(listStrs.get(i) + "_", count + 1);
+                        count = 0;
+                    }
+                }
+            } else {
+                mapStrs.put(listStrs.get(i) + "_", count + 1);
+            }
+        }
+
+        for (String key : mapStrs.keySet()) {
+            if (mapStrs.get(key) == 1) {
+                result += key.replace("_", "");
+            } else {
+                result += key.replace("_", "") + mapStrs.get(key);
+            }
+        }
+        return result;
+    }
+
     public static int lengthOfLongestSubstring(String s) {
         Set<Character>set=new HashSet<>();
         int maxLength=0;
